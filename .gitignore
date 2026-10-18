@@ -1,0 +1,40 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# PyTorch Checkpoints and Models
+*.pth
+*.pt
+checkpoints/
+checkpoints_rsl/
+
+# Excluded Research Papers (Per user specification)
+papers/
+*.pdf
+
+# Datasets and Archives (Large binary files)
+mushroom_preprocessed_224.zip
+preprocessed_224/
+Control/
+1SKEO.2CEO/
+2SKEO.1CEO/
+contour_tests/
+dataset/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Virtual Environments
+venv/
+env/
+.env
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# Output cache and local logs
+outputs/
+outputs_rsl/
+kaggle_results/
