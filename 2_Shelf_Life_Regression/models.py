@@ -35,9 +35,11 @@ class MultimodalSwinRSL(nn.Module):
     def __init__(
         self,
         pretrained: bool = True,
+        pretrained_phase1: bool = False,
         treatment_dim: int = 3,
         treatment_emb_dim: int = 32,
-        dropout: float = 0.3
+        dropout: float = 0.3,
+        **kwargs
     ):
         super().__init__()
         self.model_name = "multimodal_swin_t"
@@ -118,9 +120,11 @@ class MultimodalResNetRSL(nn.Module):
     def __init__(
         self,
         pretrained: bool = True,
+        pretrained_phase1: bool = False,
         treatment_dim: int = 3,
         treatment_emb_dim: int = 32,
-        dropout: float = 0.3
+        dropout: float = 0.3,
+        **kwargs
     ):
         super().__init__()
         self.model_name = "multimodal_resnet50"
