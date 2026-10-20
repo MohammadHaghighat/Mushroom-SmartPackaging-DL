@@ -12,7 +12,7 @@
 
 ## 📌 Repository Structure & Modular Architecture
 
-To maintain maximum code clarity and independence, the project is structured into **two dedicated, self-contained sub-projects**:
+To maintain maximum code clarity and independence, the project is structured into **modular sub-projects and integrated notebooks**:
 
 ```text
 Mushroom-SmartPackaging-DL/
@@ -31,13 +31,22 @@ Mushroom-SmartPackaging-DL/
 │   ├── models.py                   # Multimodal Swin-T & ResNet50 (Vision + Treatment Fusion)
 │   ├── train.py                    # Huber Loss Regression Training Engine
 │   ├── kaggle_mushroom_rsl_pipeline.ipynb # Ready-to-run Kaggle GPU Notebook
+│   ├── kaggle-mushroom-rsl-pipeline-results.ipynb # Executed notebook with full outputs
 │   └── README.md                   # Phase 2 Documentation
+│
+├── 📂 notebooks/                    # End-to-End Integrated Pipelines
+│   ├── kaggle_mushroom_end2end_pipeline.ipynb # Unified pipeline with domain transfer
+│   └── kaggle-mushroom-end2end-pipeline-result.ipynb # Executed End-to-End notebook with outputs
 │
 ├── 📂 assets/                       # Performance Curves, Confusion Matrices & Heatmaps
 │   ├── training_curves.png
 │   ├── cm_resnet50.png
 │   ├── cm_swin_t.png
-│   └── gradcam_explainability.png
+│   ├── gradcam_explainability.png
+│   ├── rsl_training_curves.png
+│   ├── rsl_actual_vs_pred_resnet50.png
+│   ├── rsl_actual_vs_pred_swin_t.png
+│   └── rsl_test_samples_predictions.png
 │
 ├── splits.json                     # Deterministic Sample-ID (1-22) Splitting (Zero Data Leakage)
 ├── requirements.txt                # Unified Project Dependencies
@@ -103,28 +112,39 @@ All experiments strictly partition images by physical **Sample ID (1 to 22)** ra
 | **ResNet-50** | Classic CNN | 84.26% | 0.851 | 0.843 | 0.845 |
 | **Swin-T** | Hierarchical ViT | **93.52%** | **0.938** | **0.935** | **0.936** |
 
-### 2. Remaining Shelf Life (RSL) Multimodal Regression
+### 2. Remaining Shelf Life (RSL) Multimodal Regression (Held-Out Test Set)
 
-| Architecture | Model Input | MAE (Days) | RMSE (Days) | $R^2$ Score |
-| :--- | :--- | :---: | :---: | :---: |
-| **Multimodal ResNet50** | Image + Packaging Metadata | ~1.35 d | ~1.82 d | 0.912 |
-| **Multimodal Swin-T** | Image + Packaging Metadata | **~0.88 d** | **~1.24 d** | **0.958** |
+| Architecture | Model Input | MAE (Days) | RMSE (Days) | $R^2$ Score | MAPE (%) |
+| :--- | :--- | :---: | :---: | :---: | :---: |
+| **Multimodal ResNet50** | Image + Packaging Metadata | 1.11 d | 2.36 d | 0.9014 | 14.49% |
+| **Multimodal Swin-T** | Image + Packaging Metadata | **1.05 d** | **2.22 d** | **0.9132** | **13.81%** |
 
 ---
 
 ## 📈 Visual Results
 
-### Training & Convergence
+### Biological Spoilage Classification (Phase 1)
 ![Training Curves](assets/training_curves.png)
 
-### Test Set Confusion Matrices (Classification)
-| ResNet50 (84.26%) | Swin Transformer (93.52%) |
+#### Test Set Confusion Matrices (Classification)
+| ResNet50 (86.11% Test) | Swin Transformer (91.67% Test) |
 | :---: | :---: |
 | ![CM ResNet50](assets/cm_resnet50.png) | ![CM Swin-T](assets/cm_swin_t.png) |
 
-### Explainability: Defect Attention vs. Specular Glare (Grad-CAM)
+#### Explainability: Defect Attention vs. Specular Glare (Grad-CAM)
 ![Grad-CAM](assets/gradcam_explainability.png)
 *Swin Transformer effectively bypasses plastic wrap reflections and focuses exclusively on localized browning patches on the mushroom cap.*
+
+### Multimodal Remaining Shelf Life (RSL) Regression (Phase 2)
+![RSL Training Curves](assets/rsl_training_curves.png)
+
+#### Actual vs. Predicted RSL on Unseen Test Samples (IDs: 1, 4, 21)
+| Multimodal ResNet50 ($R^2=0.901$) | Multimodal Swin-T ($R^2=0.913$) |
+| :---: | :---: |
+| ![Actual vs Pred ResNet50](assets/rsl_actual_vs_pred_resnet50.png) | ![Actual vs Pred Swin-T](assets/rsl_actual_vs_pred_swin_t.png) |
+
+#### Qualitative Multi-Treatment Test Inference
+![Test Predictions](assets/rsl_test_samples_predictions.png)
 
 ---
 
